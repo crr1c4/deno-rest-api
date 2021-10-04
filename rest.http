@@ -1,0 +1,22 @@
+# Initial GET
+GET http://localhost:9000/notes
+
+### ADD note
+POST http://localhost:9000/notes
+Content-Type: application/json
+
+{
+  "title": "Note example",
+  "description": "Note description"
+}
+
+### EDIT note
+PUT http://localhost:9000/notes/85453827-d159-451b-b81e-7413d91cf896
+Content-Type: application/json
+
+{
+  "title": "Note edited"
+}
+
+###
+DELETE http://localhost:9000/notes/37eb8af3-8195-439c-819f-21e3337b0bfa
