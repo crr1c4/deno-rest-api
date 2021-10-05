@@ -1,3 +1,4 @@
+// import handleError from './handleError.ts';
 // import type {
 //   RouteParams,
 //   Response,
@@ -24,3 +25,5 @@
 //   hashedPassword,
 //   isEqual // true
 // });
+
+// handleError('Some error text for show error terminal message', 404);

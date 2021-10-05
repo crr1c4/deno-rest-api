@@ -1,4 +1,4 @@
-import { red, bold } from 'https://deno.land/std@0.109.0/fmt/colors.ts';
+import handleError from "../helpers/handleError.ts"
 import type {
   RouteParams,
   Response,
@@ -12,16 +12,6 @@ interface Note {
   date: Date;
   id: string;
 }
-
-interface ErrorType {
-  message: string;
-  status: number;
-}
-
-const handleError = (message: string, status: number): ErrorType => {
-  console.error(red(`ERROR: ${bold(message)}`));
-  return { message, status };
-};
 
 let notes: Note[] = [];
 
@@ -39,7 +29,7 @@ export const addNote = async ({
 }: {
   request: Request;
   response: Response;
-}) => {
+},) => {
   try {
     const { title, description }: { title: string; description: string } =
       await request.body().value;
