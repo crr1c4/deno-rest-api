@@ -1,0 +1,23 @@
+# GET all notes
+GET http://localhost:10000/notes
+
+### POST add note
+POST http://localhost:10000/notes
+Content-Type: application/json
+
+{
+  "title": "Note title 2",
+  "description": "Note description 2"
+}
+
+### PUT UPDATE NOTE
+PUT http://localhost:10000/notes/
+Content-Type: application/json
+
+{
+  "title": "Note edited",
+  "description": "Description changed"
+}
+
+### DELETE delete note
+DELETE http://localhost:10000/notes/

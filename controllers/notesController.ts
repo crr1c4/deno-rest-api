@@ -1,26 +1,29 @@
-import handleError from "../helpers/handleError.ts"
+import { Document, Bson } from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+import db from '../db.ts';
 import type {
   RouteParams,
   Response,
   Request,
 } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 
+interface NoteInput {
+  title: string;
+  description: string;
+}
+
 interface Note {
   title: string;
   description: string;
   checked: boolean;
   date: Date;
-  id: string;
+  _id?: Document;
 }
 
-let notes: Note[] = [];
+const notesCollection = db.collection<Note>('notes');
 
-export const getNote = ({ response }: { response: Response }) => {
+export const getNote = async ({ response }: { response: Response }) => {
   response.status = 200;
-  response.body = {
-    message: 'Success',
-    notes,
-  };
+  response.body = await notesCollection.find().toArray();
 };
 
 export const addNote = async ({
@@ -29,38 +32,24 @@ export const addNote = async ({
 }: {
   request: Request;
   response: Response;
-},) => {
-  try {
-    const { title, description }: { title: string; description: string } =
-      await request.body().value;
+}) => {
+  const { title, description }: NoteInput = await request.body().value;
 
-    if (title === undefined) throw handleError('Title was undefined.', 400);
-    if (title === '') throw handleError('Title was empty.', 400);
-    if (description === undefined)
-      throw handleError('Description was undefined.', 400);
-    if (description === '') throw handleError('Description was empty.', 400);
+  const note: Note = {
+    title,
+    description,
+    checked: false,
+    date: new Date(),
+  };
 
-    const note: Note = {
-      title,
-      description,
-      checked: false,
-      date: new Date(),
-      id: globalThis.crypto.randomUUID(),
-    };
+  const id = await notesCollection.insertOne(note);
+  note._id = id;
 
-    notes.push(note);
-
-    response.status = 201;
-    response.body = {
-      message: 'Note created',
-      note,
-    };
-  } catch (err) {
-    response.status = err.status;
-    response.body = {
-      message: err.message,
-    };
-  }
+  response.status = 201;
+  response.body = {
+    message: 'Note created',
+    note,
+  };
 };
 
 export const editNote = async ({
@@ -72,54 +61,58 @@ export const editNote = async ({
   response: Response;
   params: RouteParams;
 }) => {
+  const { title, description }: NoteInput = await request.body().value;
+  const { id } = params;
   try {
-    if (params.id === undefined) throw handleError('Title was undefined.', 400);
-    if (params.id === '') throw handleError('Title was empty.', 400);
-    if (!notes.find((n) => n.id === params.id))
-      throw handleError('Not found', 404);
+    const { modifiedCount } = await notesCollection.updateOne(
+      { _id: new Bson.ObjectId(id) },
+      {
+        $set: {
+          title,
+          description,
+        },
+      }
+    );
 
-    const editedNote: Note = {
-      ...notes.find((nUpdated) => nUpdated.id === params.id),
-      ...(await request.body().value),
-    };
-
-    notes = notes.filter((n) => n.id !== params.id).concat(editedNote);
+    if (!modifiedCount) {
+      response.status = 404;
+      response.body = { message: 'Note doesn´t exist' };
+    }
 
     response.status = 201;
     response.body = {
       message: 'Updated note!',
-      note: editedNote,
     };
   } catch (err) {
-    response.status = err.status;
+    response.status = 500;
+    response.body = { message: 'Unknown error' };
+    console.error(err);
+  } finally {
+    const note = await notesCollection.findOne({ _id: new Bson.ObjectId(id) });
     response.body = {
-      message: err.message,
+      message: 'Note updated!',
+      note,
     };
   }
 };
 
-export const deleteNote = ({
+export const deleteNote = async ({
   params,
   response,
 }: {
   params: RouteParams;
   response: Response;
 }) => {
-  try {
-    if (params.id === undefined) throw handleError('Title was undefined.', 400);
-    if (params.id === '') throw handleError('Title was empty.', 400);
-    if (!notes.find((n) => n.id === params.id))
-      throw handleError('Not found', 404);
+  const { id } = params;
+  const deleteCount = await notesCollection.deleteOne({
+    _id: new Bson.ObjectId(id),
+  });
 
-    notes = notes.filter((n) => n.id !== params.id);
-    response.status = 200;
-    response.body = {
-      message: 'Removed note!',
-    };
-  } catch (err) {
-    response.status = err.status;
-    response.body = {
-      message: err.message,
-    };
+  if (!deleteCount) {
+    response.status = 404;
+    response.body = { message: 'Note doesn´t exist' };
+    return;
   }
+
+  response.status = 204;
 };

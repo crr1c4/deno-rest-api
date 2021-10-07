@@ -1,9 +1,12 @@
 import { Application } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
-import router from './routes/router.ts';
-import printInfo from "./middlewares/printInfo.ts"
+import { config } from 'https://deno.land/x/dotenv@v3.0.0/mod.ts';
+import router from './routes/notes.routes.ts';
+import printInfo from './middlewares/printInfo.ts';
+
+const { PORT } = config();
 
 const app = new Application();
-const port = 9000;
+const port: number = Number(PORT) || 9000;
 
 app.use(printInfo);
 app.use(router.routes());
