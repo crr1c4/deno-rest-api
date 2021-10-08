@@ -15,9 +15,11 @@ export const getNotes = async (ctx: RouterContext) => {
     };
     return;
   }
-  
+
   ctx.response.body = 200;
-  ctx.response.body = await notesCollection.find({
-    author: new Bson.ObjectId(user._id)
-  }).toArray();
+  ctx.response.body = await notesCollection
+    .find({
+      author: new Bson.ObjectId(user._id),
+    })
+    .toArray();
 };

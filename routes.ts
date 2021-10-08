@@ -10,22 +10,23 @@ import { registerUser } from './controllers/users/register.ts';
 import { loginUser } from './controllers/users/login.ts';
 import { deleteUser } from './controllers/users/delete.ts';
 import { getUser } from './controllers/users/get.ts';
+// Middlewares
+import verifyJWT from './middlewares/verifyJWT.ts';
 
 const router = new Router();
-  // TODO: Add :username to other crud actions
-  // TODO: Create middlewares
-  // TODO: JWT
+// TODO: Create middlewares
+// TODO: JWT
 router
   // * Users
-  .get("/users", getUsers) // ! Remove, its only for development >:(
+  .get('/users', getUsers) // ! Remove, its only for development >:(
   .post('/signup', registerUser)
   .post('/signin', loginUser)
-  .get('/:userId', getUser)
-  .delete('/:userId', deleteUser)
+  .get('/:userId', verifyJWT, getUser)
+  .delete('/:userId', verifyJWT, deleteUser)
   // * Notes
-  .get('/:username/notes', getNotes)
-  .post('/:username/notes', addNote)
-.put('/:username/notes/:id', editNote)
-.delete('/:username/notes/:id', deleteNote);
+  .get('/:username/notes', verifyJWT, getNotes)
+  .post('/:username/notes', verifyJWT, addNote)
+  .put('/:username/notes/:id', verifyJWT, editNote)
+  .delete('/:username/notes/:id', verifyJWT, deleteNote);
 
 export default router;

@@ -1,11 +1,17 @@
 import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 import { Bson } from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
-import { usersCollection } from "../collections.ts"
+import { usersCollection, notesCollection } from '../collections.ts';
 
 export const deleteUser = async (ctx: RouterContext) => {
   const { userId } = ctx.params;
+
+  // Delete notes of the deleted user
+  await notesCollection.deleteMany({
+    author: new Bson.ObjectId(userId),
+  });
+
   const deleteCount = await usersCollection.deleteOne({
-    _id: new Bson.ObjectId(userId)
+    _id: new Bson.ObjectId(userId),
   });
 
   if (!deleteCount) {
@@ -15,4 +21,4 @@ export const deleteUser = async (ctx: RouterContext) => {
   }
 
   ctx.response.status = 204;
-}
+};
