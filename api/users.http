@@ -23,5 +23,3 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:10000/615fad18078a5e9e1a0f1de5
-
-

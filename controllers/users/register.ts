@@ -1,7 +1,7 @@
 import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 import * as bcrypt from 'https://deno.land/x/bcrypt@v0.2.4/mod.ts';
-import { usersCollection } from './user.ts';
-import type { User } from './user.ts';
+import { usersCollection } from '../collections.ts';
+import type { User } from '../collections.ts';
 
 export const registerUser = async (ctx: RouterContext) => {
   const user: User = await ctx.request.body().value;

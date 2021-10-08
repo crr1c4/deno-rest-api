@@ -1,13 +1,13 @@
 # GET all notes
-GET http://localhost:10000/notes
+GET http://localhost:10000/cr1c4/notes
 
 ### POST add note
-POST http://localhost:10000/notes
+POST http://localhost:10000/cr1c4/notes
 Content-Type: application/json
 
 {
-  "title": "Note title 2",
-  "description": "Note description 2"
+  "title": "Note title cr1c4",
+  "description": "Note description cr1c4"
 }
 
 ### PUT UPDATE NOTE
