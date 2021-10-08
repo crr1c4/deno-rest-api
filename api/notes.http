@@ -20,4 +20,4 @@ Content-Type: application/json
 }
 
 ### DELETE delete note
-DELETE http://localhost:10000/notes/
+DELETE http://localhost:10000/cr1c4/notes/615fc9e59fad9b5f337a5447
