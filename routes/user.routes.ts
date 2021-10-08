@@ -1,10 +1,7 @@
 import { Router } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 import * as UserCtrl from "../controllers/userController.ts"
 
-
 const router = new Router();
-
-
 
 router.get("/users", UserCtrl.getUsers)
   .post("/signup", UserCtrl.registerUser)

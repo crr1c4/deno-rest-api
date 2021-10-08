@@ -1,7 +1,10 @@
-GET http://localhost:8000/users
+GET http://localhost:10000/615fadcfab6465c248932692
 
 ###
-POST http://localhost:8000/signup
+GET http://localhost:10000/users 
+
+###
+POST http://localhost:10000/signup
 Content-Type: application/json
 
 {
@@ -10,12 +13,6 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8000/signin
-Content-Type: application/json
-
-{
-  "username": "cr1c5",
-  "password": "12"
-}
+DELETE http://localhost:10000/615fad18078a5e9e1a0f1de5
 
 

@@ -1,6 +1,6 @@
 import { Application } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 import { config } from 'https://deno.land/x/dotenv@v3.0.0/mod.ts';
-import router from './routes/notes.routes.ts';
+import router from './routes/routes.ts';
 import printInfo from './middlewares/printInfo.ts';
 
 const { PORT } = config();
