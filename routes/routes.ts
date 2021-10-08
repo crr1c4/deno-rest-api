@@ -7,12 +7,14 @@ import { registerUser } from "../controllers/users/register.ts"
 import { getUsers } from "../controllers/users/getAll.ts"
 import { deleteUser } from "../controllers/users/delete.ts"
 import { getUser } from "../controllers/users/get.ts"
+import { login } from "../controllers/users/login.ts"
 // import {  } from "../controllers/users/login.ts"
 
 const router = new Router();
 
 router
   .get("/users", getUsers)
+  .post("/signin", login)
   .get("/:id", getUser)
   .post("/signup", registerUser)
   .delete("/:id", deleteUser)

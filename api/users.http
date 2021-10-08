@@ -1,6 +1,15 @@
 GET http://localhost:10000/615fadcfab6465c248932692
 
 ###
+POST http://localhost:10000/signin
+Content-Type: application/json
+
+{
+  "username": "cr1c4",
+  "password": "12345"
+}
+
+###
 GET http://localhost:10000/users 
 
 ###

@@ -16,9 +16,14 @@ export const login = async (ctx: RouterContext) => {
     return;
   }
 
-  if (!await bcrypt.compare(userRequest.password, userFound.password)) {
+  const isPasswordValid = await bcrypt.compare(userRequest.password, userFound.password);
+
+  console.log(isPasswordValid);
+  
+  if (!isPasswordValid) {
     ctx.response.status = 403;
     ctx.response.body = { message: 'Incorrect fields' };
+    return;
   }
   
   ctx.response.status = 200;
