@@ -1,9 +1,9 @@
-import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
-import * as bcrypt from 'https://deno.land/x/bcrypt@v0.2.4/mod.ts';
-import { create } from "https://deno.land/x/djwt@v2.4/mod.ts";
+import { compare } from 'https://deno.land/x/bcrypt@v0.2.4/mod.ts';
+import { create } from 'https://deno.land/x/djwt@v2.4/mod.ts';
 import { usersCollection } from '../collections.ts';
+import key from '../../helpers/generateKey.ts';
+import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 import type { User } from '../collections.ts';
-import key from "../../helpers/generateKey.ts";
 
 export const loginUser = async (ctx: RouterContext) => {
   const userRequest: User = await ctx.request.body().value;
@@ -18,21 +18,26 @@ export const loginUser = async (ctx: RouterContext) => {
     return;
   }
 
-  const isPasswordValid = await bcrypt.compare(userRequest.password, userFound.password);
+  const isPasswordValid = await compare(
+    userRequest.password,
+    userFound.password
+  );
 
-  console.log(isPasswordValid);
-  
   if (!isPasswordValid) {
     ctx.response.status = 403;
-    ctx.response.body = { message: 'Incorrect fields' };
+    ctx.response.body = { message: 'Incorrect password' };
     return;
   }
 
-  const jwt = await create({ alg: "HS512", typ: "JWT" }, { id: userFound._id }, key);
+  const jwt = await create(
+    { alg: 'HS512', typ: 'JWT' },
+    { id: userFound._id },
+    key
+  );
 
   ctx.response.status = 200;
   ctx.response.body = {
     user: userFound,
-    token: jwt
+    token: jwt,
   };
 };

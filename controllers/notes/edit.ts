@@ -1,23 +1,12 @@
 import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 import { Bson } from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
-import { notesCollection, usersCollection } from '../collections.ts';
-import type { RequestBody } from '../collections.ts';
+import { notesCollection } from '../collections.ts';
+import type { RequestBody, User } from '../collections.ts';
 
 export const editNote = async (ctx: RouterContext) => {
   const { title, description }: RequestBody = await ctx.request.body().value;
-  const { id, username } = ctx.params;
-
-  const user = await usersCollection.findOne({
-    username,
-  });
-
-  if (!user) {
-    ctx.response.status = 404;
-    ctx.response.body = {
-      message: 'User doesn´t exist',
-    };
-    return;
-  }
+  const { id } = ctx.params;
+  const user: User = ctx.state.user;
 
   try {
     const { modifiedCount } = await notesCollection.updateOne(
