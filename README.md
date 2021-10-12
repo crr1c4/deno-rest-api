@@ -71,5 +71,5 @@ All notes routes *__need JWT__*.
 
 Headers used in this REST-API:
 
-  - Content-Type
-  - X-Access-Token
+  - Content-Type: application/json
+  - Authorization: Bearer token
