@@ -1,4 +1,5 @@
 import { Router } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
+import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 // Notes
 import { getNotes } from './controllers/notes/get.ts';
 import { addNote } from './controllers/notes/add.ts';
@@ -16,8 +17,8 @@ import verifyUser from './middlewares/verifyUser.ts';
 const router = new Router();
 router
   // * Users
-  .post('/signup', registerUser)
-  .post('/signin', loginUser)
+  .post('/signup', oakCors(), registerUser)
+  .post('/signin', oakCors(), loginUser)
   .get('/:userId', verifyJWT, getUser)
   .delete('/:userId', verifyJWT, deleteUser)
   // * Notes

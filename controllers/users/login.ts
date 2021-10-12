@@ -37,7 +37,7 @@ export const loginUser = async (ctx: RouterContext) => {
 
   ctx.response.status = 200;
   ctx.response.body = {
-    user: userFound,
+    username: userFound.username,
     token: jwt,
   };
 };
