@@ -1,5 +1,5 @@
 import { notesCollection } from '../collections.ts';
-import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
+import type { RouterContext } from 'oak';
 import type { Note, RequestBody, User } from '../collections.ts';
 
 export const addNote = async (ctx: RouterContext) => {

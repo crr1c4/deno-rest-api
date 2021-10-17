@@ -1,7 +1,4 @@
-import type {
-  RouterMiddleware,
-  RouterContext,
-} from 'https://deno.land/x/oak@v9.0.1/mod.ts';
+import type { RouterMiddleware, RouterContext } from 'oak';
 import { usersCollection } from '../controllers/collections.ts';
 
 const verifyUser: RouterMiddleware = async (ctx: RouterContext, next) => {

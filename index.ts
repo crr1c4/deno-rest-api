@@ -1,6 +1,6 @@
-import { Application } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
-import { config } from 'https://deno.land/x/dotenv@v3.0.0/mod.ts';
-import { oakCors } from 'https://deno.land/x/cors@v1.2.2/mod.ts';
+import { Application } from 'oak';
+import { config } from 'dotenv';
+import { oakCors } from 'cors';
 import router from './routes.ts';
 
 const { PORT } = config();
@@ -10,7 +10,7 @@ const port: number = Number(PORT) || 9000;
 
 app.use(
   oakCors({
-    origin: /^.+localhost:(1234|3000)$/,
+    origin: /^.+localhost:(3000|5500)$/,
     optionsSuccessStatus: 200,
   })
 );

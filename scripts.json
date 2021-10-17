@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "dev": {
+      "cmd": "index.ts",
+      "imap": "import_map.json",
+      "watch": true,
+      "unstable": true,
+      "allow": ["all"]
+    },
+    "start": {
+      "cmd": "index.ts",
+      "imap": "import_map.json",
+      "watch": false,
+      "unstable": true,
+      "allow": ["net", "read", "env", "write"]
+    }
+  }
+}

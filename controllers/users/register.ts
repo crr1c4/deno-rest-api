@@ -1,6 +1,6 @@
-import { genSalt, hash } from 'https://deno.land/x/bcrypt@v0.2.4/mod.ts';
+import { genSalt, hash } from 'bcrypt';
 import { usersCollection } from '../collections.ts';
-import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
+import type { RouterContext } from 'oak';
 import type { User } from '../collections.ts';
 
 export const registerUser = async (ctx: RouterContext) => {

@@ -1,8 +1,8 @@
-import { compare } from 'https://deno.land/x/bcrypt@v0.2.4/mod.ts';
-import { create } from 'https://deno.land/x/djwt@v2.4/mod.ts';
+import { compare } from 'bcrypt';
+import { create } from 'djwt';
 import { usersCollection } from '../collections.ts';
 import key from '../../helpers/generateKey.ts';
-import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
+import type { RouterContext } from 'oak';
 import type { User } from '../collections.ts';
 
 export const loginUser = async (ctx: RouterContext) => {

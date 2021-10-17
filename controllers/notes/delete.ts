@@ -1,5 +1,5 @@
-import type { RouterContext } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
-import { Bson } from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+import type { RouterContext } from 'oak';
+import { Bson } from 'mongo';
 import { notesCollection, User } from '../collections.ts';
 
 export const deleteNote = async (ctx: RouterContext) => {
